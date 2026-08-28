@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Portal de atendimento HelpDesk" />
+    <title>HelpDesk | Portal de atendimento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#">
+          <span class="brand-mark">H</span>
+          <span>HelpDesk</span>
+        </a>
+        <div class="topbar-actions">
+          <span id="user-label" class="user-label"></span>
+          <button id="notifications-button" class="notification-button hidden" type="button" title="Notificações" aria-label="Notificações">♢<span id="notification-badge" class="notification-badge hidden">0</span></button>
+          <button id="home-button" class="button button-ghost hidden" type="button">Início</button>
+          <button id="profile-button" class="button button-ghost hidden" type="button">Meu perfil</button>
+          <button id="admin-button" class="button button-ghost hidden" type="button">Administração</button>
+          <button id="logout-button" class="button button-ghost hidden" type="button">Sair</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="auth-view" class="auth-layout">
+          <div class="intro-panel">
+            <span class="eyebrow">ATENDIMENTO SEM COMPLICAÇÃO</span>
+            <h1>Resolva seu problema. <em>Sem abrir um labirinto.</em></h1>
+            <p>Conte o que aconteceu e acompanhe o atendimento em um só lugar.</p>
+            <div class="trust-row">
+              <span><strong>01</strong> Explique</span>
+              <span><strong>02</strong> Acompanhe</span>
+              <span><strong>03</strong> Resolva</span>
+            </div>
+          </div>
+          <div class="auth-card">
+            <div class="tabs" role="tablist">
+              <button class="tab active" data-auth-tab="login" type="button">Entrar</button>
+              <button class="tab" data-auth-tab="register" type="button">Criar conta</button>
+            </div>
+            <form id="login-form" class="auth-form">
+              <div class="form-heading">
+                <h2>Bem-vindo de volta</h2>
+                <p>Entre para acompanhar seus chamados.</p>
+              </div>
+              <label>Email<input name="email" type="email" placeholder="voce@exemplo.com" required /></label>
+              <label>Senha<input name="password" type="password" placeholder="Sua senha" required /></label>
+              <button class="button button-primary button-wide" type="submit">Entrar no portal <span>→</span></button>
+            </form>
+            <form id="register-form" class="auth-form hidden">
+              <div class="form-heading">
+                <h2>Crie sua conta</h2>
+                <p>Leva menos de um minuto para começar.</p>
+              </div>
+              <label>Nome<input name="name" type="text" placeholder="Seu nome" minlength="2" required /></label>
+              <label>Email<input name="email" type="email" placeholder="voce@exemplo.com" required /></label>
+              <label>Senha<input name="password" type="password" placeholder="Mínimo de 8 caracteres" minlength="8" required /></label>
+              <button class="button button-primary button-wide" type="submit">Criar minha conta <span>→</span></button>
+            </form>
+            <p id="auth-message" class="message" role="alert"></p>
+          </div>
+        </section>
+
+        <section id="dashboard-view" class="dashboard hidden">
+          <div class="dashboard-heading">
+            <div>
+              <span class="eyebrow">CENTRAL DE ATENDIMENTO</span>
+              <h1>Olá, <span id="welcome-name">você</span>.</h1>
+              <p>O que precisa de ajuda hoje?</p>
+            </div>
+            <button id="new-ticket-button" class="button button-primary" type="button"><span class="plus">+</span> Abrir chamado</button>
+          </div>
+
+          <div class="stats-grid">
+            <button class="stat-card stat-filter" data-status-filter="IN_PROGRESS" type="button"><span class="stat-icon">◷</span><span><span>Em atendimento</span><strong id="stat-progress">0</strong></span></button>
+            <button class="stat-card stat-filter" data-status-filter="OPEN" type="button"><span class="stat-icon">○</span><span><span>Abertos</span><strong id="stat-open">0</strong></span></button>
+            <button class="stat-card stat-filter" data-status-filter="CLOSED" type="button"><span class="stat-icon">✓</span><span><span>Fechados</span><strong id="stat-closed">0</strong></span></button>
+            <article class="stat-card stat-overdue"><span class="stat-icon">!</span><span><span>Atrasados</span><strong id="stat-overdue">0</strong></span></article>
+          </div>
+
+          <div class="content-grid">
+            <section class="tickets-panel">
+              <div class="section-heading"><div><h2 id="tickets-heading">Meus chamados</h2><p>Acompanhe o andamento das suas solicitações.</p></div><div><button id="clear-ticket-filter" class="button button-ghost hidden" type="button">Ver todos</button><button id="refresh-button" class="icon-button" type="button" title="Atualizar chamados">↻</button></div></div>
+              <div id="tickets-list" class="tickets-list"><div class="empty-state"><span class="empty-icon">✦</span><h3>Nenhum chamado por aqui</h3><p>Quando precisar de ajuda, abra seu primeiro chamado.</p><button class="button button-secondary" type="button" data-open-ticket>Fazer um pedido</button></div></div>
+            </section>
+            <aside class="help-panel"><div class="help-art">✳</div><span class="eyebrow">PRECISA DE AJUDA?</span><h2>Estamos aqui para resolver.</h2><p>Descreva o problema com detalhes. Nossa equipe cuidará do resto.</p><button class="text-button" type="button" data-open-ticket>Abra um chamado <span>→</span></button></aside>
+          </div>
+        </section>
+
+        <section id="admin-view" class="admin-view hidden">
+          <div class="dashboard-heading">
+            <div><span class="eyebrow">VISÃO DA OPERAÇÃO</span><h1>Chamados <span>em foco</span>.</h1><p>Gerencie atendimentos, responsáveis e prioridades.</p></div>
+            <div class="heading-actions"><button id="users-button" class="button button-secondary" type="button">Usuários</button><button id="back-dashboard-button" class="button button-secondary" type="button">← Meus chamados</button></div>
+          </div>
+          <div class="admin-toolbar">
+            <label>Buscar<input id="admin-search" type="search" placeholder="Título ou descrição" /></label>
+            <label>Status<select id="admin-status-filter"><option value="">Todos</option><option value="OPEN">Abertos</option><option value="IN_PROGRESS">Em atendimento</option><option value="WAITING_USER">Aguardando usuário</option><option value="RESOLVED">Resolvidos</option><option value="CLOSED">Fechados</option></select></label>
+            <label>Prioridade<select id="admin-priority-filter"><option value="">Todas</option><option value="LOW">Baixa</option><option value="MEDIUM">Normal</option><option value="HIGH">Alta</option><option value="CRITICAL">Crítica</option></select></label>
+            <button id="admin-refresh-button" class="icon-button" type="button" title="Atualizar chamados">↻</button>
+          </div>
+          <p id="admin-message" class="message" role="alert"></p>
+          <section class="admin-table-panel"><div id="admin-tickets-list" class="admin-tickets-list"></div><div class="pagination"><button id="admin-previous" class="button button-ghost" type="button">← Anterior</button><span id="admin-page-label">Página 1 de 1</span><button id="admin-next" class="button button-ghost" type="button">Próxima →</button></div></section>
+          <section class="sla-panel"><div><span class="eyebrow">PRAZOS DE ATENDIMENTO</span><h2>Políticas de SLA</h2><p>Defina em quantas horas cada prioridade deve ser resolvida.</p></div><div id="sla-list" class="sla-list"></div><p id="sla-message" class="message" role="alert"></p></section>
+        </section>
+
+        <section id="users-view" class="admin-view hidden">
+          <div class="dashboard-heading">
+            <div><span class="eyebrow">EQUIPE E ACESSOS</span><h1>Gerenciar <span>usuários</span>.</h1><p>Crie contas e controle os níveis de acesso.</p></div>
+            <button id="back-admin-button" class="button button-secondary" type="button">← Chamados</button>
+          </div>
+          <section class="user-create-panel"><h2>Novo usuário</h2><form id="managed-user-form" class="user-create-form"><label>Nome<input name="name" type="text" minlength="2" maxlength="120" required /></label><label>Email<input name="email" type="email" required /></label><label>Senha<input name="password" type="password" minlength="8" maxlength="128" required /></label><label>Perfil<select name="role"><option value="USER">Usuário</option><option value="TECHNICIAN">Técnico</option><option value="ADMIN">Administrador</option></select></label><button class="button button-primary" type="submit">Criar usuário</button></form><p id="user-message" class="message" role="alert"></p></section>
+          <section class="admin-table-panel"><div id="users-list" class="users-list"></div></section>
+        </section>
+      </main>
+      <section id="notifications-panel" class="notifications-panel hidden" aria-live="polite">
+        <div class="notifications-heading"><strong>Notificações</strong><button id="close-notifications" class="modal-close" type="button" aria-label="Fechar">×</button></div>
+        <div class="notifications-actions"><button id="mark-all-read" class="button button-ghost" type="button">Marcar todas como lidas</button><button id="clear-notifications" class="button button-ghost" type="button">Limpar</button></div>
+        <div id="notifications-list" class="notifications-list"><p class="notifications-empty">Nenhuma notificação nova.</p></div>
+      </section>
+      <footer class="site-footer">
+        <span>Desenvolvido por <strong>Herickson Cordeiro</strong></span>
+        <span class="footer-mark">HelpDesk API · 2026</span>
+      </footer>
+    </div>
+
+    <div id="ticket-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-card">
+        <button id="close-modal" class="modal-close" type="button" aria-label="Fechar">×</button>
+        <span class="eyebrow">NOVA SOLICITAÇÃO</span>
+        <h2 id="modal-title">Como podemos ajudar?</h2>
+        <p class="modal-subtitle">Quanto mais detalhes você contar, mais rápido resolveremos.</p>
+        <form id="ticket-form">
+          <label>Assunto<input name="title" type="text" placeholder="Ex.: Meu computador não liga" minlength="3" maxlength="200" required /></label>
+          <label>Conte o que aconteceu<textarea name="description" rows="5" placeholder="Descreva o problema com suas palavras..." minlength="3" maxlength="10000" required></textarea></label>
+          <div class="form-row"><label>Categoria<select name="category_id" id="category-select" required><option value="">Selecione uma categoria</option></select></label><label>Urgência<select name="priority"><option value="LOW">Baixa</option><option value="MEDIUM" selected>Normal</option><option value="HIGH">Alta</option><option value="CRITICAL">Crítica</option></select></label></div>
+          <p id="ticket-message" class="message" role="alert"></p>
+          <button class="button button-primary button-wide" type="submit">Enviar chamado <span>→</span></button>
+        </form>
+      </div>
+    </div>
+    <div id="comments-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="comments-title">
+      <div class="modal-card conversation-card">
+        <button id="close-comments-modal" class="modal-close" type="button" aria-label="Fechar">×</button>
+        <span class="eyebrow">CONVERSA DO CHAMADO</span>
+        <h2 id="comments-title">Chamado</h2>
+        <div class="ticket-detail-summary"><span id="detail-status" class="status"></span><span id="detail-priority" class="status"></span><span id="detail-date"></span><span id="detail-technician"></span></div>
+        <p id="detail-description" class="detail-description"></p>
+        <div class="detail-section-title">Histórico</div>
+        <div id="audit-list" class="audit-list"></div>
+        <div class="detail-section-title">Conversa</div>
+        <div id="comments-list" class="comments-list"></div>
+        <form id="comment-form" class="comment-form">
+          <label>Responder<textarea name="content" rows="3" placeholder="Escreva uma resposta..." maxlength="5000" required></textarea></label>
+          <p id="comment-message" class="message" role="alert"></p>
+          <button class="button button-primary button-wide" type="submit">Enviar resposta <span>→</span></button>
+        </form>
+      </div>
+    </div>
+    <div id="profile-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+      <div class="modal-card profile-card">
+        <button id="close-profile-modal" class="modal-close" type="button" aria-label="Fechar">×</button>
+        <span class="eyebrow">MEU PERFIL</span>
+        <h2 id="profile-title">Corrija seus dados</h2>
+        <p class="modal-subtitle">Seu nome pode ser atualizado quando precisar.</p>
+        <form id="profile-form">
+          <label>Nome<input name="name" type="text" minlength="2" maxlength="120" required /></label>
+          <label>Email<input id="profile-email" type="email" disabled /></label>
+          <p id="profile-message" class="message" role="alert"></p>
+          <button class="button button-primary button-wide" type="submit">Salvar alteração <span>→</span></button>
+        </form>
+      </div>
+    </div>
+    <div id="managed-user-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="managed-user-title">
+      <div class="modal-card profile-card">
+        <button id="close-managed-user-modal" class="modal-close" type="button" aria-label="Fechar">×</button>
+        <span class="eyebrow">EDITAR USUÁRIO</span>
+        <h2 id="managed-user-title">Atualizar cadastro</h2>
+        <form id="managed-user-edit-form">
+          <input name="user_id" type="hidden" />
+          <label>Nome<input name="name" type="text" minlength="2" maxlength="120" required /></label>
+          <label>Email<input name="email" type="email" required /></label>
+          <label>Perfil<select name="role"><option value="USER">Usuário</option><option value="TECHNICIAN">Técnico</option><option value="ADMIN">Administrador</option></select></label>
+          <label>Status<select name="is_active"><option value="true">Ativo</option><option value="false">Inativo</option></select></label>
+          <p id="managed-user-message" class="message" role="alert"></p>
+          <button class="button button-primary button-wide" type="submit">Salvar usuário <span>→</span></button>
+        </form>
+      </div>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+    <script src="app.js?v=30"></script>
+  </body>
+</html>
