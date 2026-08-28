@@ -7,8 +7,8 @@ Revises: 0005
 from typing import Sequence, Union
 
 import sqlalchemy as sa
-
 from alembic import op
+
 
 revision: str = "0006"
 down_revision: Union[str, None] = "0005"
@@ -21,23 +21,32 @@ def upgrade() -> None:
         "sla_policies",
         sa.Column(
             "priority",
-            sa.Enum("LOW", "MEDIUM", "HIGH", "CRITICAL", name="ticket_priority"),
+            sa.dialects.postgresql.ENUM(
+                "LOW",
+                "MEDIUM",
+                "HIGH",
+                "CRITICAL",
+                name="ticket_priority",
+                create_type=False,
+            ),
             primary_key=True,
         ),
-        sa.Column("resolution_hours", sa.Integer(), nullable=False),
-    )
-    op.bulk_insert(
-        sa.table(
-            "sla_policies",
-            sa.column("priority", sa.String),
-            sa.column("resolution_hours", sa.Integer),
+        sa.Column(
+            "resolution_hours",
+            sa.Integer(),
+            nullable=False,
         ),
-        [
-            {"priority": "LOW", "resolution_hours": 72},
-            {"priority": "MEDIUM", "resolution_hours": 24},
-            {"priority": "HIGH", "resolution_hours": 8},
-            {"priority": "CRITICAL", "resolution_hours": 4},
-        ],
+    )
+
+    op.execute(
+        """
+        INSERT INTO sla_policies (priority, resolution_hours)
+        VALUES
+            ('LOW'::ticket_priority, 72),
+            ('MEDIUM'::ticket_priority, 24),
+            ('HIGH'::ticket_priority, 8),
+            ('CRITICAL'::ticket_priority, 4)
+        """
     )
 
 
