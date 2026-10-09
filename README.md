@@ -5,6 +5,16 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2B-4169E1?logo=postgresql&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-11%20passing-2ea44f)
 
+## 🔗 Links
+
+| | Link |
+|---|---|
+| 📋 **API + Swagger UI** | https://helpdesk-api-yk7a.onrender.com/docs |
+| 🌐 **Frontend** | https://hericksonwilliancordeiro.github.io/helpdesk-api/ |
+| 🔀 **Port PHP/Symfony** | https://github.com/HericksonWillianCordeiro/helpdesk-api/tree/php-port |
+
+> ⚠️ **Nota:** a API pode demorar ~30 segundos na primeira requisição após inatividade (plano gratuito do Render). Aguarde e tente novamente.
+
 API REST para gerenciamento de chamados de suporte de TI. O projeto foi
 construído como uma aplicação de portfólio, com foco em segurança, separação de
 responsabilidades, testes automatizados e evolução por migrations.
