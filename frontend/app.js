@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://helpdesk-api-yk7a.onrender.com";
 const state = { token: localStorage.getItem("helpdesk_token"), refreshToken: localStorage.getItem("helpdesk_refresh_token"), user: null, categories: [], technicians: [], adminTickets: [], dashboardTickets: [], dashboardFilter: null, managedUsers: [], notifications: [], notificationsInitialized: false, notificationTimer: null, adminPage: 1, adminTotalPages: 1, slaPolicies: [] };
 
 const $ = (selector) => document.querySelector(selector);
